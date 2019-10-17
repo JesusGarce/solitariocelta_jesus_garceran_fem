@@ -3,7 +3,9 @@ package es.jesusgarce.solitariocelta_jesus_garceran_fem;
 import android.app.DialogFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,14 +28,34 @@ public class MainActivity extends AppCompatActivity {
     SCeltaViewModel miJuego;
     private boolean changesInTheGame = false;
     private FileOutputStream fileOutputStream;
+    private int colorToken;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkPreferences();
         setContentView(R.layout.activity_main);
 
         miJuego = ViewModelProviders.of(this).get(SCeltaViewModel.class);
 
         mostrarTablero();
+    }
+
+    private void checkPreferences() {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        changeColorToken(sharedPref.getString(
+                getString(R.string.prefKeyColorFicha),
+                getString(R.string.prefDefaultColorFicha)
+        ));
+
+        boolean darkMode = sharedPref.getBoolean(getString(R.string.prefKeyModoOscuro), false);
+
+        if (darkMode)
+            setTheme(R.style.AppThemeDark);
+
+        Log.i(LOG_KEY, "onCREATE: ColorToken = " + colorToken);
+        Log.i(LOG_KEY, "darkMode = " + ((darkMode) ? "on" : "off"));
     }
 
     /**
@@ -79,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     if (miJuego.obtenerFicha(i, j) != JuegoCelta.FICHA)
                         button.setImageDrawable(getResources().getDrawable(R.drawable.empty_token));
                     else
-                        button.setImageDrawable(getResources().getDrawable(R.drawable.orange_token));
+                        button.setImageDrawable(getResources().getDrawable(colorToken));
                 }
             }
     }
@@ -151,6 +173,34 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar.LENGTH_SHORT
             ).show();
         }
+    }
+
+    public void changeColorToken(String colorToken) {
+        if (colorToken == null) {
+            this.colorToken = R.drawable.orange_token;
+            return;
+        }
+
+        switch (colorToken) {
+            case "blue_token":
+                this.colorToken = R.drawable.blue_token;
+                break;
+            case "green_token":
+                this.colorToken = R.drawable.green_token;
+                break;
+            case "pink_token":
+                this.colorToken = R.drawable.pink_token;
+                break;
+            case "red_token":
+                this.colorToken = R.drawable.red_token;
+                break;
+            case "yellow_token":
+                this.colorToken = R.drawable.yellow_token;
+                break;
+            default:
+                this.colorToken = R.drawable.orange_token;
+        }
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

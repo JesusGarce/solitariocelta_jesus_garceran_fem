@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="Color">
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Rosa</item>
+        <item>Rojo</item>
+        <item>Amarillo</item>
+    </string-array>
+
+    <string-array name="ColorAlias">
+        <item>blue_token</item>
+        <item>green_token</item>
+        <item>orange_token</item>
+        <item>pink_token</item>
+        <item>red_token</item>
+        <item>yellow_token</item>
+    </string-array>
+
+</resources>
