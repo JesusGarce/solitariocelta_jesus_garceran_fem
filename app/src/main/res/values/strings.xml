@@ -7,12 +7,12 @@
     <string name="txtOpcionGuardar">Guardar Partida</string>
     <string name="txtOpcionRecuperar">Recuperar Partida</string>
     <string name="txtOpcionMejoresResultados">Mejores Resultados</string>
+    <string name="txtDialogYes">Sí</string>
+    <string name="txtDialogNo">No</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
     <string name="txtDialogoFinalPregunta">¿Desea jugar otra partida?</string>
-    <string name="txtDialogoFinalAfirmativo">Sí</string>
-    <string name="txtDialogoFinalNegativo">No</string>
 
     <!-- Acerca de -->
     <string name="aboutText">Acerca de</string>
@@ -30,7 +30,14 @@
     <!-- Diálogo Reiniciar -->
     <string name="txtDialogRestart">Reiniciar partida</string>
     <string name="txtDialogRestartDescription">¿Desea reiniciar la partida? Perderás tu avance</string>
-    <string name="txtDialogRestartYes">Sí</string>
-    <string name="txtDialogRestartNo">No</string>
+
+    <!-- Guardar partida -->
+    <string name="txtSavedGameOK">Partida guardada con éxito.</string>
+    <string name="txtSavedGameFalse">No se ha podido guardar la partida.</string>
+    <string name="txtNoSavedGame">No hay ninguna partida guardada.</string>
+
+    <!-- Recuperar partida -->
+    <string name="txtDialogRestore">Recuperar partida</string>
+    <string name="txtDialogRestoreDescription">¿Desea recuperar la partida guardada? Perderás tu avance</string>
 
 </resources>
