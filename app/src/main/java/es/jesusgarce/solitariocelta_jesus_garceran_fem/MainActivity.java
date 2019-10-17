@@ -1,5 +1,6 @@
 package es.jesusgarce.solitariocelta_jesus_garceran_fem;
 
+import android.app.DialogFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class MainActivity extends AppCompatActivity {
 
 	SCeltaViewModel miJuego;
-    public final String LOG_KEY = "MiW";
+    public final String LOG_KEY = "JGS";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
+    /**
+     * Reinicia la partida
+     */
+
+    public void restartGame() {
+        Log.i(LOG_KEY, "Juego reiniciado");
+        miJuego.reiniciar();
+        mostrarTablero();
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.opciones_menu, menu);
@@ -82,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.opcAcercaDe:
                 startActivity(new Intent(this, AcercaDe.class));
                 return true;
-
+            case R.id.opcReiniciarPartida:
+                DialogFragment dialogFragment = new RestartDialogFragment();
+                dialogFragment.show(getFragmentManager(), "RestartDialog");
 
             default:
                 Snackbar.make(
