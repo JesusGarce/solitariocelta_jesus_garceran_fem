@@ -7,9 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class ExitDialogFragment extends DialogFragment {
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final MainActivity main = (MainActivity) getActivity();
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final MainActivity main = (MainActivity) getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(main);
         builder
@@ -35,6 +35,6 @@ public class ExitDialogFragment extends DialogFragment {
                         }
                 );
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 }

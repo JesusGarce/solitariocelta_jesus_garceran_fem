@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +21,9 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-	SCeltaViewModel miJuego;
-    public final String LOG_KEY = "JGS";
     private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
+    public final String LOG_KEY = "JGS";
+    SCeltaViewModel miJuego;
     private boolean changesInTheGame = false;
     private FileOutputStream fileOutputStream;
 
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
      * Se ejecuta al pulsar una ficha
      * Las coordenadas (i, j) se obtienen a partir del nombre del recurso, ya que el botón
      * tiene un identificador en formato pXY, donde X es la fila e Y la columna
+     *
      * @param v Vista de la ficha pulsada
      */
     public void fichaPulsada(@NotNull View v) {
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
      * Visualiza el tablero
      */
     public void mostrarTablero() {
-        RadioButton button;
+        ImageView button;
         String strRId;
         String prefijoIdentificador = getPackageName() + ":id/p"; // formato: package:type/entry
         int idBoton;
@@ -75,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 idBoton = getResources().getIdentifier(strRId, null, null);
                 if (idBoton != 0) { // existe el recurso identificador del botón
                     button = findViewById(idBoton);
-                    button.setChecked(miJuego.obtenerFicha(i, j) == JuegoCelta.FICHA);
+                    if (miJuego.obtenerFicha(i, j) != JuegoCelta.FICHA)
+                        button.setImageDrawable(getResources().getDrawable(R.drawable.empty_token));
+                    else
+                        button.setImageDrawable(getResources().getDrawable(R.drawable.orange_token));
                 }
             }
     }
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Guardar la partida
      */
-    private void saveGame(){
+    private void saveGame() {
         try {
             fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
             fileOutputStream.write(miJuego.serializaTablero().getBytes());
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(findViewById(android.R.id.content),
                     getString(R.string.txtSavedGameOK),
                     Snackbar.LENGTH_LONG).show();
-            Log.i(LOG_KEY, "Partida guardada en el fichero "+NAME_FILE_SAVED_GAME);
+            Log.i(LOG_KEY, "Partida guardada en el fichero " + NAME_FILE_SAVED_GAME);
         } catch (IOException e) {
             e.printStackTrace();
             Snackbar.make(findViewById(android.R.id.content),
@@ -110,18 +114,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteGameSaved(){
+    private void deleteGameSaved() {
         try {
             fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
             fileOutputStream.write("".getBytes());
-            Log.i(LOG_KEY, "Partida borrada del fichero "+NAME_FILE_SAVED_GAME);
+            Log.i(LOG_KEY, "Partida borrada del fichero " + NAME_FILE_SAVED_GAME);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void restoreGame(){
+    public void restoreGame() {
         boolean thereIsSavedGame = false;
 
         try {
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             if (linea != null) {
                 thereIsSavedGame = true;
                 miJuego.deserializaTablero(linea);
-                Log.i(LOG_KEY, "Partida: "+linea+" recuperada del fichero "+NAME_FILE_SAVED_GAME);
+                Log.i(LOG_KEY, "Partida: " + linea + " recuperada del fichero " + NAME_FILE_SAVED_GAME);
             }
             fin.close();
             mostrarTablero();
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (!thereIsSavedGame){
+        if (!thereIsSavedGame) {
             Snackbar.make(
                     findViewById(android.R.id.content),
                     getString(R.string.txtNoSavedGame),

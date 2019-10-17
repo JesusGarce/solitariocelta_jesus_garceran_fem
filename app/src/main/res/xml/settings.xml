@@ -3,8 +3,8 @@
     <PreferenceCategory android:title="@string/prefTituloCategoria1">
         <EditTextPreference
             android:key="nombreJugador"
-            android:title="@string/prefTituloNombreJugador"
-            android:summary="@string/prefTextoNombreJugador" />
+            android:summary="@string/prefTextoNombreJugador"
+            android:title="@string/prefTituloNombreJugador" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/prefTituloCategoria2">

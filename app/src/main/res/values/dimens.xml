@@ -5,5 +5,5 @@
 
     <!-- Altura de la barra de estado -->
     <dimen name="height_status_bar">50dp</dimen>
-    
+
 </resources>
