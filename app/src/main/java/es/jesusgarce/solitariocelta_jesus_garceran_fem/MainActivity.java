@@ -32,13 +32,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         checkPreferences();
         setContentView(R.layout.activity_main);
 
         miJuego = ViewModelProviders.of(this).get(SCeltaViewModel.class);
 
         mostrarTablero();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
     private void checkPreferences() {
@@ -49,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.prefDefaultColorFicha)
         ));
 
+
         boolean darkMode = sharedPref.getBoolean(getString(R.string.prefKeyModoOscuro), false);
 
         if (darkMode)
             setTheme(R.style.AppThemeDark);
+        else
+            setTheme(R.style.AppTheme);
 
         Log.i(LOG_KEY, "onCREATE: ColorToken = " + colorToken);
         Log.i(LOG_KEY, "darkMode = " + ((darkMode) ? "on" : "off"));
