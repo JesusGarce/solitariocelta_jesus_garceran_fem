@@ -20,6 +20,7 @@ public class ExitDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                main.restartTime();
                                 main.miJuego.reiniciar();
                                 main.mostrarTablero();
                             }

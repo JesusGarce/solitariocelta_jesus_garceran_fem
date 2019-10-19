@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Solitario Celta</string>
+    <string name="txtFichasRestantes">Restantes</string>
+    <string name="txtTiempo">Tiempo</string>
     <string name="txtSinImplementar">¡No implementado aún!</string>
     <string name="txtReiniciarPartida">Reiniciar</string>
     <string name="txtOpcionGuardar">Guardar Partida</string>
