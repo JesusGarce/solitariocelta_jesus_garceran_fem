@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,20 +21,28 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
     public final String LOG_KEY = "JGS";
     SCeltaViewModel miJuego;
+    Timer timer;
     private boolean changesInTheGame = false;
     private FileOutputStream fileOutputStream;
     private int colorToken;
+    private int colorButton;
+    private int minutes;
+    private int seconds;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPreferences();
         setContentView(R.layout.activity_main);
+        changeButtonColor();
+        restartTime();
 
         miJuego = ViewModelProviders.of(this).get(SCeltaViewModel.class);
 
@@ -55,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.prefDefaultColorFicha)
         ));
 
-
         boolean darkMode = sharedPref.getBoolean(getString(R.string.prefKeyModoOscuro), false);
 
         if (darkMode)
@@ -65,6 +73,51 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(LOG_KEY, "onCREATE: ColorToken = " + colorToken);
         Log.i(LOG_KEY, "darkMode = " + ((darkMode) ? "on" : "off"));
+    }
+
+    private void changeButtonColor() {
+        ImageView tiempoFrame = findViewById(R.id.firstImageFrame);
+        tiempoFrame.setImageDrawable(getResources().getDrawable(colorButton));
+
+        ImageView puntuacionFrame = findViewById(R.id.secondImageFrame);
+        puntuacionFrame.setImageDrawable(getResources().getDrawable(colorButton));
+    }
+
+
+    public void restartTime() {
+        if (timer != null)
+            timer.cancel();
+
+        timer = new Timer();
+        minutes = 0;
+        seconds = 0;
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        String minutesString = String.valueOf(minutes);
+                        String secondsString = String.valueOf(seconds);
+                        TextView time = findViewById(R.id.tiempoValor);
+                        if (minutes < 10)
+                            minutesString = "0" + minutes;
+                        if (seconds < 10)
+                            secondsString = "0" + seconds;
+
+                        time.setText(minutesString + ":" + secondsString);
+                        seconds++;
+
+                        if (seconds == 60) {
+                            minutes = 1;
+                            seconds = 0;
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
     /**
@@ -109,10 +162,14 @@ public class MainActivity extends AppCompatActivity {
                     button = findViewById(idBoton);
                     if (miJuego.obtenerFicha(i, j) != JuegoCelta.FICHA)
                         button.setImageDrawable(getResources().getDrawable(R.drawable.empty_token));
-                    else
+                    else {
                         button.setImageDrawable(getResources().getDrawable(colorToken));
+                    }
                 }
             }
+
+        TextView valueRemainedTokens = findViewById(R.id.fichasRestantesValue);
+        valueRemainedTokens.setText(String.valueOf(miJuego.numeroFichas()));
     }
 
     /**
@@ -122,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     public void restartGame() {
         Log.i(LOG_KEY, "Juego reiniciado");
         miJuego.reiniciar();
+        restartTime();
         mostrarTablero();
     }
 
@@ -187,27 +245,34 @@ public class MainActivity extends AppCompatActivity {
     public void changeColorToken(String colorToken) {
         if (colorToken == null) {
             this.colorToken = R.drawable.orange_token;
+            this.colorButton = R.drawable.orange_button;
             return;
         }
 
         switch (colorToken) {
             case "blue_token":
                 this.colorToken = R.drawable.blue_token;
+                this.colorButton = R.drawable.blue_button;
                 break;
             case "green_token":
                 this.colorToken = R.drawable.green_token;
+                this.colorButton = R.drawable.green_buton;
                 break;
             case "pink_token":
                 this.colorToken = R.drawable.pink_token;
+                this.colorButton = R.drawable.pink_button;
                 break;
             case "red_token":
                 this.colorToken = R.drawable.red_token;
+                this.colorButton = R.drawable.red_button;
                 break;
             case "yellow_token":
                 this.colorToken = R.drawable.yellow_token;
+                this.colorButton = R.drawable.yellow_button;
                 break;
             default:
                 this.colorToken = R.drawable.orange_token;
+                this.colorButton = R.drawable.orange_button;
         }
 
     }
