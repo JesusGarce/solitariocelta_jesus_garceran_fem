@@ -190,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
             fileOutputStream.write(miJuego.serializaTablero().getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write(String.valueOf(minutes).getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write(String.valueOf(seconds).getBytes());
             fileOutputStream.close();
             Snackbar.make(findViewById(android.R.id.content),
                     getString(R.string.txtSavedGameOK),
@@ -225,6 +229,10 @@ public class MainActivity extends AppCompatActivity {
                 thereIsSavedGame = true;
                 miJuego.deserializaTablero(linea);
                 Log.i(LOG_KEY, "Partida: " + linea + " recuperada del fichero " + NAME_FILE_SAVED_GAME);
+                linea = fin.readLine();
+                minutes = Integer.decode(linea);
+                linea = fin.readLine();
+                seconds = Integer.decode(linea);
             }
             fin.close();
             mostrarTablero();
