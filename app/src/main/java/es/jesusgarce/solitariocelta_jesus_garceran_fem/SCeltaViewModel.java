@@ -76,4 +76,5 @@ public class SCeltaViewModel extends ViewModel {
     public void reiniciar() {
         _juego.reiniciar();
     }
+
 }

@@ -1,6 +1,7 @@
 package es.jesusgarce.solitariocelta_jesus_garceran_fem;
 
 import android.app.DialogFragment;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,20 +30,30 @@ public class MainActivity extends AppCompatActivity {
     private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
     public final String LOG_KEY = "JGS";
     SCeltaViewModel miJuego;
-    Timer timer;
+    TimeViewModel timeViewModel;
     private boolean changesInTheGame = false;
     private FileOutputStream fileOutputStream;
     private int colorToken;
     private int colorButton;
-    private int minutes;
-    private int seconds;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPreferences();
+
         setContentView(R.layout.activity_main);
+
+        timeViewModel = ViewModelProviders.of(this).get(TimeViewModel.class);
+        final Observer<Integer> timeObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                TextView time = findViewById(R.id.tiempoValor);
+                time.setText(timeViewModel.getTime());
+            }
+        };
+        timeViewModel.getSeconds().observe(this, timeObserver);
+        startTime();
+
         changeButtonColor();
-        restartTime();
 
         miJuego = ViewModelProviders.of(this).get(SCeltaViewModel.class);
 
@@ -50,10 +61,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
+    }
+
+    private void startTime() {
+        if (timeViewModel.getMinutes().getValue() != 0 || timeViewModel.getSeconds().getValue() != 0)
+            return;
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        increaseTime();
+                    }
+                });
+            }
+        }, 0, 1000);
+
+    }
+
+    private void increaseTime() {
+        timeViewModel.getSeconds().setValue(timeViewModel.getSeconds().getValue() + 1);
+
+        if (timeViewModel.getSeconds().getValue() == 60) {
+            timeViewModel.getMinutes().setValue(timeViewModel.getMinutes().getValue() + 1);
+            timeViewModel.getSeconds().setValue(0);
+        }
     }
 
     private void checkPreferences() {
@@ -83,42 +128,6 @@ public class MainActivity extends AppCompatActivity {
         puntuacionFrame.setImageDrawable(getResources().getDrawable(colorButton));
     }
 
-
-    public void restartTime() {
-        if (timer != null)
-            timer.cancel();
-
-        timer = new Timer();
-        minutes = 0;
-        seconds = 0;
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        String minutesString = String.valueOf(minutes);
-                        String secondsString = String.valueOf(seconds);
-                        TextView time = findViewById(R.id.tiempoValor);
-                        if (minutes < 10)
-                            minutesString = "0" + minutes;
-                        if (seconds < 10)
-                            secondsString = "0" + seconds;
-
-                        time.setText(minutesString + ":" + secondsString);
-                        seconds++;
-
-                        if (seconds == 60) {
-                            minutes = 1;
-                            seconds = 0;
-                        }
-                    }
-                });
-            }
-        }, 0, 1000);
-    }
 
     /**
      * Se ejecuta al pulsar una ficha
@@ -179,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     public void restartGame() {
         Log.i(LOG_KEY, "Juego reiniciado");
         miJuego.reiniciar();
-        restartTime();
+        timeViewModel.restartTime();
         mostrarTablero();
     }
 
@@ -191,9 +200,9 @@ public class MainActivity extends AppCompatActivity {
             fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
             fileOutputStream.write(miJuego.serializaTablero().getBytes());
             fileOutputStream.write("\n".getBytes());
-            fileOutputStream.write(String.valueOf(minutes).getBytes());
+            fileOutputStream.write(String.valueOf(timeViewModel.getMinutes().getValue()).getBytes());
             fileOutputStream.write("\n".getBytes());
-            fileOutputStream.write(String.valueOf(seconds).getBytes());
+            fileOutputStream.write(String.valueOf(timeViewModel.getSeconds().getValue()).getBytes());
             fileOutputStream.close();
             Snackbar.make(findViewById(android.R.id.content),
                     getString(R.string.txtSavedGameOK),
@@ -230,9 +239,9 @@ public class MainActivity extends AppCompatActivity {
                 miJuego.deserializaTablero(linea);
                 Log.i(LOG_KEY, "Partida: " + linea + " recuperada del fichero " + NAME_FILE_SAVED_GAME);
                 linea = fin.readLine();
-                minutes = Integer.decode(linea);
+                timeViewModel.setMinutes(Integer.decode(linea));
                 linea = fin.readLine();
-                seconds = Integer.decode(linea);
+                timeViewModel.setSeconds(Integer.decode(linea));
             }
             fin.close();
             mostrarTablero();
