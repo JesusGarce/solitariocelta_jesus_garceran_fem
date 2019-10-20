@@ -25,6 +25,9 @@ import java.io.InputStreamReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.ViewModels.SCeltaViewModel;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.ViewModels.TimeViewModel;
+
 public class MainActivity extends AppCompatActivity {
 
     private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         miJuego = ViewModelProviders.of(this).get(SCeltaViewModel.class);
 
         mostrarTablero();
+        saveThreeGams();
     }
 
     @Override
@@ -216,6 +220,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void saveThreeGams() {
+        try {
+            fileOutputStream = openFileOutput("lastGameList.txt", MODE_PRIVATE);
+            fileOutputStream.write(miJuego.serializaTablero().getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("2".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("16".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("30".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write(miJuego.serializaTablero().getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("0".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("48".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("28".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write(miJuego.serializaTablero().getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("1".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("32".getBytes());
+            fileOutputStream.write("\n".getBytes());
+            fileOutputStream.write("26".getBytes());
+            fileOutputStream.close();
+            Snackbar.make(findViewById(android.R.id.content),
+                    getString(R.string.txtSavedGameOK),
+                    Snackbar.LENGTH_LONG).show();
+            Log.i(LOG_KEY, "Partida guardada en el fichero " + NAME_FILE_SAVED_GAME);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Snackbar.make(findViewById(android.R.id.content),
+                    getString(R.string.txtSavedGameFalse),
+                    Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     private void deleteGameSaved() {
         try {
             fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
@@ -320,7 +363,9 @@ public class MainActivity extends AppCompatActivity {
                     DialogFragment restoreDialogFragment = new RestoreDialogFragment();
                     restoreDialogFragment.show(getFragmentManager(), "RestoreDialog");
                 } else {
-                    restoreGame();
+                    startActivity(new Intent(this, ListGamesFragment.class));
+
+                    //restoreGame();
                 }
 
                 return true;

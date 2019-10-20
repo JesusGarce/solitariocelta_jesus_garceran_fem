@@ -35,6 +35,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ListGamesFragment"
+            android:label="@string/txtOpcionRecuperar"
+            android:theme="@android:style/Theme.Material.Dialog.MinWidth"
+            tools:targetApi="lollipop">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

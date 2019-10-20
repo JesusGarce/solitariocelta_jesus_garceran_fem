@@ -1,6 +1,6 @@
 package es.jesusgarce.solitariocelta_jesus_garceran_fem;
 
-class JuegoCelta {
+public class JuegoCelta {
 
     static final int TAMANIO = 7;
     static final int HUECO = 0;
