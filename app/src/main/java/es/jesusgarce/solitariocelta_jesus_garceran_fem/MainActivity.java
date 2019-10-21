@@ -22,8 +22,13 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.Models.RepositoryScore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private FileOutputStream fileOutputStream;
     private int colorToken;
     private int colorButton;
+    private String userName;
+    RepositoryScore scoreDB;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         };
         timeViewModel.getSeconds().observe(this, timeObserver);
         startTime();
+
+        scoreDB = new RepositoryScore(getApplicationContext());
+        Log.i(LOG_KEY, "scoreDB: Count: = " + scoreDB.getAllByFichasRestantes());
 
         changeButtonColor();
 
@@ -116,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         else
             setTheme(R.style.AppTheme);
 
+        userName = sharedPref.getString(getString(R.string.prefKeyNombreJugador), "Anónimo");
+
         Log.i(LOG_KEY, "onCREATE: ColorToken = " + colorToken);
         Log.i(LOG_KEY, "darkMode = " + ((darkMode) ? "on" : "off"));
     }
@@ -149,9 +161,19 @@ public class MainActivity extends AppCompatActivity {
 
         mostrarTablero();
         if (miJuego.juegoTerminado()) {
-            // TODO guardar puntuación
+            addScore();
             new ExitDialogFragment().show(getFragmentManager(), "ALERT_DIALOG");
         }
+    }
+
+    private void addScore(){
+        String date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+                .format(new Date());
+        String tiempo = timeViewModel.getTime();
+
+        Long idNewScore = scoreDB.add(userName, tiempo, date, miJuego.numeroFichas());
+        Log.i(LOG_KEY, "Creado score con id: "+idNewScore);
+        Log.i(LOG_KEY, scoreDB.getAll().toString());
     }
 
     /**
@@ -323,6 +345,10 @@ public class MainActivity extends AppCompatActivity {
                     restoreGame();
                 }
 
+                return true;
+
+            case R.id.opcMejoresResultados:
+                startActivity(new Intent(this, BestScore.class));
                 return true;
 
             default:
