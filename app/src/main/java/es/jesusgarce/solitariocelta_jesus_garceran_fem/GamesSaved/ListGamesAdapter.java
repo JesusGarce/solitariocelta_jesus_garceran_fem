@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.GamesSaved;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
 
 public class ListGamesAdapter extends ArrayAdapter {
 

@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.GamesSaved;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
 
 public class ListGamesFragment extends Activity implements AdapterView.OnItemClickListener {
 
@@ -60,12 +62,12 @@ public class ListGamesFragment extends Activity implements AdapterView.OnItemCli
             while (linea != null) {
                 String tablero = linea;
                 linea = fin.readLine();
-                String consumedTime = linea;
+                int minutes = Integer.parseInt(linea);
                 linea = fin.readLine();
-                consumedTime = consumedTime + ":" + linea;
+                int seconds = Integer.parseInt(linea);
                 linea = fin.readLine();
                 int fichasRestantes = Integer.parseInt(linea);
-                gameSaved = new GameSaved("Partida guardada "+index, consumedTime, "Jesús", tablero, fichasRestantes);
+                gameSaved = new GameSaved("Partida guardada "+index, minutes, seconds, "Jesús", tablero, fichasRestantes);
                 gameSavedList.add(gameSaved);
                 Log.i(LOG_KEY, "Partida guardada: "+ gameSaved.toString());
                 index++;

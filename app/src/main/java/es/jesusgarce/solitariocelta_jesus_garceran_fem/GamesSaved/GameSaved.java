@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.GamesSaved;
 
 public class GameSaved {
 
@@ -6,11 +6,25 @@ public class GameSaved {
     String consumedTime;
     String userName;
     int fichasRestantes;
+    int minutes;
+    int seconds;
     String tablero;
 
-    public GameSaved(String name, String consumedTime, String userName, String tablero, int fichasRestantes) {
+    public GameSaved(){
+        this.name="";
+        this.consumedTime="";
+        this.userName="";
+        this.fichasRestantes = 0;
+        this.minutes = 0;
+        this.seconds = 0;
+        this.tablero="";
+    }
+
+    public GameSaved(String name, int minutes, int seconds, String userName, String tablero, int fichasRestantes) {
         this.name = name;
-        this.consumedTime = consumedTime;
+        this.minutes = minutes;
+        this.seconds = seconds;
+        this.consumedTime = minutes + ":" + seconds;
         this.userName = userName;
         this.tablero = tablero;
         this.fichasRestantes = fichasRestantes;
@@ -30,6 +44,18 @@ public class GameSaved {
 
     public int getFichasRestantes() {
         return fichasRestantes;
+    }
+
+    public String getTablero() {
+        return tablero;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public int getSeconds() {
+        return seconds;
     }
 
     @Override
