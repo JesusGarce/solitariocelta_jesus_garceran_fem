@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem.Models;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.models;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,21 +8,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.LinkedList;
 
 public class RepositoryScore extends SQLiteOpenHelper {
     private static final String DB_NAME = ScoreContract.ScoreEntry.TABLE_NAME + ".db";
     private static final int DB_VERSION = 1;
 
-    public RepositoryScore(@Nullable Context context){
-        super(context, DB_NAME,null, DB_VERSION);
+    public RepositoryScore(@Nullable Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String consultaSQL = "CREATE TABLE " + ScoreContract.ScoreEntry.TABLE_NAME + " ("
                 + ScoreContract.ScoreEntry.COL_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ScoreContract.ScoreEntry.COL_NAME_NOMBRE_USUARIO      + " TEXT, "
+                + ScoreContract.ScoreEntry.COL_NAME_NOMBRE_USUARIO + " TEXT, "
                 + ScoreContract.ScoreEntry.COL_NAME_TIEMPO + " TEXT,"
                 + ScoreContract.ScoreEntry.COL_NAME_FECHA + " DATE,"
                 + ScoreContract.ScoreEntry.COL_NAME_FICHAS_RESTANTES + " INTEGER) ";
@@ -42,7 +43,7 @@ public class RepositoryScore extends SQLiteOpenHelper {
         return DatabaseUtils.queryNumEntries(db, ScoreContract.ScoreEntry.TABLE_NAME);
     }
 
-    public long add(String userName, String tiempo, String fecha, int fichasRestantes){
+    public long add(String userName, String tiempo, String fecha, int fichasRestantes) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -83,10 +84,11 @@ public class RepositoryScore extends SQLiteOpenHelper {
         return scoreList;
     }
 
-    public LinkedList<Score> getAllByFichasRestantes(){
+    public LinkedList<Score> getAllByFichasRestantes() {
         String consultaSQL =
                 "SELECT * FROM " + ScoreContract.ScoreEntry.TABLE_NAME +
-                " ORDER BY "+ ScoreContract.ScoreEntry.COL_NAME_FICHAS_RESTANTES + " ASC, "+ ScoreContract.ScoreEntry.COL_NAME_TIEMPO+ " ASC";
+                        " ORDER BY " + ScoreContract.ScoreEntry.COL_NAME_FICHAS_RESTANTES + " ASC, " + ScoreContract.ScoreEntry.COL_NAME_TIEMPO + " ASC"
+                        + " LIMIT 10";
         LinkedList<Score> scoreList = new LinkedList<>();
 
         // Accedo a la DB en modo lectura
@@ -114,7 +116,7 @@ public class RepositoryScore extends SQLiteOpenHelper {
         return scoreList;
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         String consultaSQL = "DELETE FROM " + ScoreContract.ScoreEntry.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,10 +1,11 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem.Models;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.models;
 
 import android.provider.BaseColumns;
 
 public class ScoreContract {
 
-    private ScoreContract() {}
+    private ScoreContract() {
+    }
 
     public static class ScoreEntry implements BaseColumns {
         public static final String TABLE_NAME = "scores";

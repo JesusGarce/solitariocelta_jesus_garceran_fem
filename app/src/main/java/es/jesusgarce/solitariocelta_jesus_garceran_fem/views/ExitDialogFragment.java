@@ -1,27 +1,31 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.DialogFragment;
 
-public class DeleteScoreDialogFragment extends DialogFragment {
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.MainActivity;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
+
+public class ExitDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final BestScore bestScore = (BestScore) getActivity();
+        final MainActivity main = (MainActivity) getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(bestScore);
+        AlertDialog.Builder builder = new AlertDialog.Builder(main);
         builder
-                .setTitle(R.string.txtDialogoBorrarTitulo)
-                .setMessage(R.string.txtDialogoBorrarPregunta)
+                .setTitle(R.string.txtDialogoFinalTitulo)
+                .setMessage(R.string.txtDialogoFinalPregunta)
                 .setPositiveButton(
                         getString(R.string.txtDialogYes),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                bestScore.deleteAll();
-                                bestScore.recreate();
+                                main.timeViewModel.restartTime();
+                                main.miJuego.reiniciar();
+                                main.mostrarTablero();
                             }
                         }
                 )
@@ -29,8 +33,8 @@ public class DeleteScoreDialogFragment extends DialogFragment {
                         getString(R.string.txtDialogNo),
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // Acción opción No
+                            public void onClick(DialogInterface dialog, int which) {
+                                main.finish();
                             }
                         }
                 );

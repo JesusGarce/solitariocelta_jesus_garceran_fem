@@ -1,6 +1,8 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.JuegoCelta;
 
 public class SCeltaViewModel extends ViewModel {
 

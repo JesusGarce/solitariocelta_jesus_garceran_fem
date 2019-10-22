@@ -14,15 +14,18 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.Models.RepositoryScore;
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.Models.Score;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.RepositoryScore;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.Score;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.BestScoreAdapter;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.DeleteScoreDialogFragment;
 
 public class BestScore extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private List<Score> scoreList;
-    private ListView lvScores;
     RepositoryScore scoreDB;
     Button buttonDelete;
+    BestScoreAdapter adapter;
+    private List<Score> scoreList;
+    private ListView lvScores;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class BestScore extends AppCompatActivity implements AdapterView.OnItemCl
         scoreDB = new RepositoryScore(getApplicationContext());
         scoreList = scoreDB.getAllByFichasRestantes();
 
-        BestScoreAdapter myAdapter = new BestScoreAdapter(this, R.layout.score_list, scoreList);
+        adapter = new BestScoreAdapter(this, R.layout.score_list, scoreList);
 
         Log.i("JGS", "scoreDB: MyAdapter: = " + scoreList);
 
@@ -53,7 +56,7 @@ public class BestScore extends AppCompatActivity implements AdapterView.OnItemCl
         });
 
         lvScores = findViewById(R.id.listViewScores);
-        lvScores.setAdapter(myAdapter);
+        lvScores.setAdapter(adapter);
         lvScores.setOnItemClickListener(this);
     }
 
@@ -62,12 +65,9 @@ public class BestScore extends AppCompatActivity implements AdapterView.OnItemCl
         //nothing to do
     }
 
-    public void deleteAll(){ scoreDB.deleteAll(); }
-
-    private void restartApp() {
-        this.recreate();
+    public void deleteAll() {
+        scoreDB.deleteAll();
+        adapter.clear();
     }
-
-
 
 }

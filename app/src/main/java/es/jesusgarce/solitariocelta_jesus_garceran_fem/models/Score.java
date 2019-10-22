@@ -1,10 +1,22 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem.Models;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Score implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Score> CREATOR = new Parcelable.Creator<Score>() {
+        @Override
+        public Score createFromParcel(Parcel in) {
+            return new Score(in);
+        }
+
+        @Override
+        public Score[] newArray(int size) {
+            return new Score[size];
+        }
+    };
     private int id;
     private String nombreUsuario;
     private String tiempo;
@@ -24,6 +36,14 @@ public class Score implements Parcelable {
         this.tiempo = tiempo;
         this.fecha = fecha;
         this.fichasRestantes = fichasRestantes;
+    }
+
+    protected Score(Parcel in) {
+        id = in.readInt();
+        nombreUsuario = in.readString();
+        tiempo = in.readString();
+        fecha = in.readString();
+        fichasRestantes = in.readInt();
     }
 
     public int getId() {
@@ -77,15 +97,6 @@ public class Score implements Parcelable {
                 '}';
     }
 
-
-    protected Score(Parcel in) {
-        id = in.readInt();
-        nombreUsuario = in.readString();
-        tiempo = in.readString();
-        fecha = in.readString();
-        fichasRestantes = in.readInt();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -99,17 +110,4 @@ public class Score implements Parcelable {
         dest.writeString(fecha);
         dest.writeInt(fichasRestantes);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Score> CREATOR = new Parcelable.Creator<Score>() {
-        @Override
-        public Score createFromParcel(Parcel in) {
-            return new Score(in);
-        }
-
-        @Override
-        public Score[] newArray(int size) {
-            return new Score[size];
-        }
-    };
 }

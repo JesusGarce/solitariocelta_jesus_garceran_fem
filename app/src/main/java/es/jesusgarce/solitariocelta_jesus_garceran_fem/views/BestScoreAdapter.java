@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.Models.Score;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.Score;
 
 public class BestScoreAdapter extends ArrayAdapter {
 
@@ -47,7 +48,7 @@ public class BestScoreAdapter extends ArrayAdapter {
         TextView name = view.findViewById(R.id.nameUser);
         name.setText(scoreList.get(position).getNombreUsuario());
 
-        String dataScoreString = scoreList.get(position).getFichasRestantes() + " fichas restantes || "+ scoreList.get(position).getTiempo() + " || " +scoreList.get(position).getFecha();
+        String dataScoreString = scoreList.get(position).getFichasRestantes() + " fichas restantes || " + scoreList.get(position).getTiempo() + " || " + scoreList.get(position).getFecha();
         TextView dataScore = view.findViewById(R.id.dataScore);
         dataScore.setText(dataScoreString);
 

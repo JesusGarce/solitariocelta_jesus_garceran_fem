@@ -28,20 +28,26 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.Models.RepositoryScore;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.JuegoCelta;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.RepositoryScore;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.SCeltaViewModel;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.TimeViewModel;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.ExitDialogFragment;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.RestartDialogFragment;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.RestoreDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
     public final String LOG_KEY = "JGS";
-    SCeltaViewModel miJuego;
-    TimeViewModel timeViewModel;
+    public SCeltaViewModel miJuego;
+    public TimeViewModel timeViewModel;
+    RepositoryScore scoreDB;
     private boolean changesInTheGame = false;
     private FileOutputStream fileOutputStream;
     private int colorToken;
     private int colorButton;
     private String userName;
-    RepositoryScore scoreDB;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,13 +172,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addScore(){
+    private void addScore() {
         String date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
                 .format(new Date());
         String tiempo = timeViewModel.getTime();
 
         Long idNewScore = scoreDB.add(userName, tiempo, date, miJuego.numeroFichas());
-        Log.i(LOG_KEY, "Creado score con id: "+idNewScore);
+        Log.i(LOG_KEY, "Creado score con id: " + idNewScore);
         Log.i(LOG_KEY, scoreDB.getAll().toString());
     }
 

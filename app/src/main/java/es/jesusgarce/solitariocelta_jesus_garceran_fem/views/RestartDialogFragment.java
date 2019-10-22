@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,10 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-public class RestoreDialogFragment extends DialogFragment {
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.MainActivity;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
+
+public class RestartDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -14,14 +17,14 @@ public class RestoreDialogFragment extends DialogFragment {
         final MainActivity mainActivity = (MainActivity) getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.txtDialogRestore))
-                .setMessage(getString(R.string.txtDialogRestoreDescription))
+        builder.setTitle(getString(R.string.txtDialogRestart))
+                .setMessage(getString(R.string.txtDialogRestartDescription))
                 .setPositiveButton(
                         getString(R.string.txtDialogYes),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                mainActivity.restoreGame();
+                                mainActivity.restartGame();
                             }
                         }
                 )
