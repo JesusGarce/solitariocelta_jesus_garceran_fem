@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GamesSaved.ListGamesFragment"
+            android:name=".ListGamesFragment"
             android:label="@string/txtOpcionRecuperar"
             android:theme="@android:style/Theme.Material.Dialog.MinWidth"
             tools:targetApi="lollipop">
