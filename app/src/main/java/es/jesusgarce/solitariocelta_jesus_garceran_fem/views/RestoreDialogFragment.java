@@ -24,7 +24,8 @@ public class RestoreDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                mainActivity.restoreGame();
+                                DialogFragment listGamesDialogFragment = new ListGamesFragment();
+                                listGamesDialogFragment.show(getFragmentManager(), "listGamesDialog");
                             }
                         }
                 )

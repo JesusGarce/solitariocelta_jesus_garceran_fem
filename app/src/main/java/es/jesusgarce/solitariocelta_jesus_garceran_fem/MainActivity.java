@@ -18,10 +18,6 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -33,18 +29,18 @@ import es.jesusgarce.solitariocelta_jesus_garceran_fem.models.RepositoryScore;
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.SCeltaViewModel;
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.TimeViewModel;
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.ExitDialogFragment;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.InputGameSavedDialogFragment;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.ListGamesFragment;
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.RestartDialogFragment;
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.views.RestoreDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String NAME_FILE_SAVED_GAME = "lastGame.txt";
     public final String LOG_KEY = "JGS";
     public SCeltaViewModel miJuego;
     public TimeViewModel timeViewModel;
     RepositoryScore scoreDB;
     private boolean changesInTheGame = false;
-    private FileOutputStream fileOutputStream;
     private int colorToken;
     private int colorButton;
     private String userName;
@@ -220,73 +216,6 @@ public class MainActivity extends AppCompatActivity {
         mostrarTablero();
     }
 
-    /**
-     * Guardar la partida
-     */
-    private void saveGame() {
-        try {
-            fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
-            fileOutputStream.write(miJuego.serializaTablero().getBytes());
-            fileOutputStream.write("\n".getBytes());
-            fileOutputStream.write(String.valueOf(timeViewModel.getMinutes().getValue()).getBytes());
-            fileOutputStream.write("\n".getBytes());
-            fileOutputStream.write(String.valueOf(timeViewModel.getSeconds().getValue()).getBytes());
-            fileOutputStream.close();
-            Snackbar.make(findViewById(android.R.id.content),
-                    getString(R.string.txtSavedGameOK),
-                    Snackbar.LENGTH_LONG).show();
-            Log.i(LOG_KEY, "Partida guardada en el fichero " + NAME_FILE_SAVED_GAME);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Snackbar.make(findViewById(android.R.id.content),
-                    getString(R.string.txtSavedGameFalse),
-                    Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private void deleteGameSaved() {
-        try {
-            fileOutputStream = openFileOutput(NAME_FILE_SAVED_GAME, MODE_PRIVATE);
-            fileOutputStream.write("".getBytes());
-            Log.i(LOG_KEY, "Partida borrada del fichero " + NAME_FILE_SAVED_GAME);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void restoreGame() {
-        boolean thereIsSavedGame = false;
-
-        try {
-            BufferedReader fin = new BufferedReader(
-                    new InputStreamReader(openFileInput(NAME_FILE_SAVED_GAME)));
-            String linea = fin.readLine();
-            if (linea != null) {
-                thereIsSavedGame = true;
-                miJuego.deserializaTablero(linea);
-                Log.i(LOG_KEY, "Partida: " + linea + " recuperada del fichero " + NAME_FILE_SAVED_GAME);
-                linea = fin.readLine();
-                timeViewModel.setMinutes(Integer.decode(linea));
-                linea = fin.readLine();
-                timeViewModel.setSeconds(Integer.decode(linea));
-            }
-            fin.close();
-            mostrarTablero();
-            deleteGameSaved();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (!thereIsSavedGame) {
-            Snackbar.make(
-                    findViewById(android.R.id.content),
-                    getString(R.string.txtNoSavedGame),
-                    Snackbar.LENGTH_SHORT
-            ).show();
-        }
-    }
-
     public void changeColorToken(String colorToken) {
         if (colorToken == null) {
             this.colorToken = R.drawable.orange_token;
@@ -329,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.opcAjustes:
                 startActivity(new Intent(this, SCeltaPrefs.class));
@@ -341,14 +271,16 @@ public class MainActivity extends AppCompatActivity {
                 restartDialogFragment.show(getFragmentManager(), "RestartDialog");
                 return true;
             case R.id.opcGuardarPartida:
-                saveGame();
+                DialogFragment inputGameSavedDialogFragment = new InputGameSavedDialogFragment();
+                inputGameSavedDialogFragment.show(getFragmentManager(), "InputGameSavedDialogFragment");
                 return true;
             case R.id.opcRecuperarPartida:
                 if (changesInTheGame) {
                     DialogFragment restoreDialogFragment = new RestoreDialogFragment();
                     restoreDialogFragment.show(getFragmentManager(), "RestoreDialog");
                 } else {
-                    restoreGame();
+                    DialogFragment listGamesDialogFragment = new ListGamesFragment();
+                    listGamesDialogFragment.show(getFragmentManager(), "listGamesDialog");
                 }
 
                 return true;
@@ -366,4 +298,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }
