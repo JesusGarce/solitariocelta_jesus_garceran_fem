@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.GameSaved;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.MainActivity;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.SavedGamesManager;
 
 public class ListGamesFragment extends DialogFragment {
 

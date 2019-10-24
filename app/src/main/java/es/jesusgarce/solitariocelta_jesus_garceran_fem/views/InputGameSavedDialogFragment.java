@@ -1,4 +1,4 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.MainActivity;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.SavedGamesManager;
 
 public class InputGameSavedDialogFragment extends DialogFragment {
 

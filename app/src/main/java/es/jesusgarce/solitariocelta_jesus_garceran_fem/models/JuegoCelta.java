@@ -1,10 +1,10 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.models;
 
 public class JuegoCelta {
 
-    static final int TAMANIO = 7;
-    static final int HUECO = 0;
-    static final int FICHA = 1;
+    public static final int TAMANIO = 7;
+    public static final int HUECO = 0;
+    public static final int FICHA = 1;
     private static final int NUM_MOVIMIENTOS = 4;
     private static final int[][] TABLERO_INICIAL = {    // Posiciones válidas del tablero
             {HUECO, HUECO, FICHA, FICHA, FICHA, HUECO, HUECO},

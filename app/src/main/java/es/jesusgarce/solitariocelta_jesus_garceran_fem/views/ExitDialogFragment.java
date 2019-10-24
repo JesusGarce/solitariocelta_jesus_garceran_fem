@@ -1,10 +1,13 @@
-package es.jesusgarce.solitariocelta_jesus_garceran_fem;
+package es.jesusgarce.solitariocelta_jesus_garceran_fem.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.MainActivity;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.R;
 
 public class ExitDialogFragment extends DialogFragment {
     @Override

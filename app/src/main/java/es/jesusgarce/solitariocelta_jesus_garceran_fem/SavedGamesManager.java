@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.ViewModels.SCeltaViewModel;
-import es.jesusgarce.solitariocelta_jesus_garceran_fem.ViewModels.TimeViewModel;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.SCeltaViewModel;
+import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.TimeViewModel;
 
 import static android.content.Context.MODE_PRIVATE;
 
