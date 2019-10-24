@@ -42,7 +42,7 @@ public class BestScoreAdapter extends ArrayAdapter {
             view = (LinearLayout) inflater.inflate(idLayout, parent, false);
         }
 
-        TextView positionText = view.findViewById(R.id.scorePostion);
+        TextView positionText = view.findViewById(R.id.scorePosition);
         positionText.setText(String.valueOf(position + 1));
 
         TextView name = view.findViewById(R.id.nameUser);

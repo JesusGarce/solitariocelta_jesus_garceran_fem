@@ -42,12 +42,14 @@
     <string name="txtDialogRestartDescription">¿Desea reiniciar la partida? Perderás tu avance</string>
 
     <!-- Guardar partida -->
+    <string name="txtTitleSaveGame">Nombre de la partida:</string>
     <string name="txtSavedGameOK">Partida guardada con éxito.</string>
     <string name="txtSavedGameFalse">No se ha podido guardar la partida.</string>
     <string name="txtNoSavedGame">No hay ninguna partida guardada.</string>
 
     <!-- Recuperar partida -->
     <string name="txtDialogRestore">Recuperar partida</string>
+    <string name="txtDialogRestoreOK">Partida recuperada con éxito</string>
     <string name="txtDialogRestoreDescription">¿Desea recuperar la partida guardada? Perderás tu avance</string>
 
     <!-- Borrar puntuaciones -->

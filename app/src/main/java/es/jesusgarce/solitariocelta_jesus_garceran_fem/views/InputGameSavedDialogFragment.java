@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,18 +24,29 @@ public class InputGameSavedDialogFragment extends DialogFragment {
         final SavedGamesManager savedGamesManager = new SavedGamesManager(mainActivity, mainActivity.miJuego, mainActivity.timeViewModel);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-        builder.setTitle("Nombre:");
+        builder.setTitle(R.string.txtTitleSaveGame);
         View viewInflated = LayoutInflater.from(mainActivity).inflate(R.layout.input_game_saved, (ViewGroup) getView(), false);
         final EditText input = viewInflated.findViewById(R.id.inputGameSaved);
         builder.setView(viewInflated);
 
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.txtDialogYes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                savedGamesManager.saveGame(input.getText().toString());
+                if (savedGamesManager.saveGame(input.getText().toString()))
+                    Snackbar.make(
+                            mainActivity.findViewById(android.R.id.content),
+                            getString(R.string.txtSavedGameOK),
+                            Snackbar.LENGTH_LONG
+                    ).show();
+                else
+                    Snackbar.make(
+                            mainActivity.findViewById(android.R.id.content),
+                            getString(R.string.txtSavedGameFalse),
+                            Snackbar.LENGTH_LONG
+                    ).show();
             }
         });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.txtDialogNo, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // nothing to do
