@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.jesusgarce.solitariocelta_jesus_garceran_fem.viewmodel.SCeltaViewModel;
@@ -30,23 +30,24 @@ public class SavedGamesManager {
     }
 
     public List<String> getGamesSaved() {
-        List<String> gameSaveds = new LinkedList<>();
 
+        List<String> listGames = new ArrayList<>();
         try {
             BufferedReader fin = new BufferedReader(
-                    new InputStreamReader(context.openFileInput(NAME_FILE_SAVED_GAME_LIST)));
+                    new InputStreamReader(context.openFileInput((NAME_FILE_SAVED_GAME_LIST))));
             String linea = fin.readLine();
             while (linea != null) {
-                gameSaveds.add(linea);
+                if (!linea.equals(""))
+                    listGames.add(linea);
                 linea = fin.readLine();
             }
             fin.close();
-            return gameSaveds;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
+        return listGames;
 
     }
 
